@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harini Hospitals | Marketing Payslip Portal</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-mark">H</div><div><strong>HARINI HOSPITALS</strong><small>Marketing Employee Portal</small></div></div>
+    <div id="top-user" class="top-user hidden"></div>
+  </header>
+
+  <main>
+    <section id="login-view" class="login-wrap">
+      <div class="login-card">
+        <div class="login-icon">H</div>
+        <p class="eyebrow">EMPLOYEE SELF SERVICE</p>
+        <h1>Welcome back</h1>
+        <p class="muted">Sign in to manage or view monthly payslips.</p>
+        <form id="login-form">
+          <label for="login-role">Login as</label>
+          <select id="login-role"><option value="admin">Administrator</option><option value="employee">Marketing Employee</option></select>
+          <label for="login-id">Username / Employee ID</label>
+          <input id="login-id" autocomplete="username" placeholder="Admin username or employee ID" required>
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" autocomplete="current-password" placeholder="Enter password" required>
+          <button class="btn primary full" type="submit">Sign in</button>
+          <button type="button" id="forgot-password" class="forgot-link">Forgot Password? (Employee)</button>
+          <p id="login-error" class="error" role="alert"></p>
+        </form>
+        <div class="demo-hint"><strong>Demo admin:</strong> admin / Admin@123</div>
+      </div>
+    </section>
+
+    <section id="app-view" class="hidden">
+      <div class="welcome-row">
+        <div><p class="eyebrow">PAYROLL OVERVIEW</p><h1 id="page-heading">Dashboard</h1><p class="muted" id="welcome-text"></p></div>
+        <button id="logout-btn" class="btn outline">Sign out</button>
+      </div>
+
+      <section id="admin-view" class="hidden">
+        <div class="stats">
+          <article class="stat-card"><span class="stat-label">Total employees</span><strong id="stat-employees">0</strong><span class="stat-note">Marketing department</span></article>
+          <article class="stat-card"><span class="stat-label">Payslips created</span><strong id="stat-slips">0</strong><span class="stat-note">All months</span></article>
+          <article class="stat-card"><span class="stat-label">Current month</span><strong id="stat-month">—</strong><span class="stat-note">Payroll period</span></article>
+        </div>
+        <nav class="tabs">
+          <button class="tab active" data-tab="employees-panel">Employees</button>
+          <button class="tab" data-tab="salary-panel">Create payslip</button>
+          <button class="tab" data-tab="records-panel">Payslip records</button>
+        </nav>
+
+        <section id="employees-panel" class="panel">
+          <div class="section-head"><div><h2>Marketing employees</h2><p class="muted">Add and maintain up to 20 employee demo accounts.</p></div><button id="add-employee-btn" class="btn primary">+ Add employee</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Employee ID</th><th>Name</th><th>Designation</th><th>Phone</th><th>Action</th></tr></thead><tbody id="employee-table"></tbody></table></div>
+          <p class="small muted">New employees start with password <strong>Welcome@123</strong>. Ask them to change it only in a secure production system; this demo has no secure password-change facility.</p>
+        </section>
+
+        <section id="salary-panel" class="panel hidden">
+          <div class="section-head"><div><h2>Create monthly payslip</h2><p class="muted">Enter earnings and deductions for one employee.</p></div></div>
+          <form id="salary-form" class="form-grid">
+            <div class="field full-field"><label for="salary-employee">Employee</label><select id="salary-employee" required></select></div>
+            <div class="field"><label for="salary-month">Salary month</label><input id="salary-month" type="month" required></div>
+            <div class="field"><label for="pay-date">Payment date</label><input id="pay-date" type="date"></div>
+            <div class="field"><label for="basic">Basic salary (₹)</label><input id="basic" type="number" min="0" step="0.01" value="15000" required></div>
+            <div class="field"><label for="hra">HRA (₹)</label><input id="hra" type="number" min="0" step="0.01" value="3000"></div>
+            <div class="field"><label for="allowances">Other allowances (₹)</label><input id="allowances" type="number" min="0" step="0.01" value="0"></div>
+            <div class="field"><label for="incentives">Incentives (₹)</label><input id="incentives" type="number" min="0" step="0.01" value="0"></div>
+            <div class="field"><label for="deductions">Total deductions (₹)</label><input id="deductions" type="number" min="0" step="0.01" value="0"></div>
+            <div class="field full-field"><label for="salary-notes">Notes (optional)</label><input id="salary-notes" maxlength="160" placeholder="e.g. Monthly marketing incentive"></div>
+            <div class="salary-preview full-field"><span>Estimated net salary</span><strong id="net-preview">₹18,000.00</strong></div>
+            <div class="full-field"><button class="btn primary" type="submit">Save payslip</button></div>
+            <p id="salary-message" class="success full-field"></p>
+          </form>
+        </section>
+
+        <section id="records-panel" class="panel hidden">
+          <div class="section-head"><div><h2>Payslip records</h2><p class="muted">Review and print saved demo payslips.</p></div><input id="record-search" class="search" placeholder="Search employee or month"></div>
+          <div class="table-wrap"><table><thead><tr><th>Month</th><th>Employee</th><th>Gross</th><th>Net pay</th><th>Action</th></tr></thead><tbody id="records-table"></tbody></table></div>
+        </section>
+      </section>
+
+      <section id="employee-view" class="hidden">
+        <div class="panel">
+          <div class="section-head"><div><h2>My payslips</h2><p class="muted">Your saved monthly salary statements.</p></div></div>
+          <div id="my-profile" class="profile-strip"></div>
+          <div class="table-wrap"><table><thead><tr><th>Month</th><th>Gross salary</th><th>Deductions</th><th>Net pay</th><th>Action</th></tr></thead><tbody id="my-records-table"></tbody></table></div>
+          <p id="no-my-records" class="muted"></p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="forgot-dialog">
+    <form id="forgot-form" method="dialog">
+      <div class="dialog-head">
+        <div><p class="eyebrow">EMPLOYEE ACCOUNT RECOVERY</p><h2>Reset password with SMS OTP</h2></div>
+        <button type="button" class="icon-btn" id="close-forgot" aria-label="Close">×</button>
+      </div>
+      <div id="forgot-step-mobile">
+        <p class="muted small">Enter your Employee ID and the Indian mobile number registered with the employee record.</p>
+        <div class="field"><label for="forgot-employee-id">Employee ID</label><input id="forgot-employee-id" placeholder="e.g. MH001" required></div>
+        <div class="field"><label for="forgot-mobile">Registered mobile number</label><div class="phone-input"><span>+91</span><input id="forgot-mobile" inputmode="numeric" autocomplete="tel-national" maxlength="10" placeholder="10-digit mobile number" required></div></div>
+        <button type="button" id="send-otp-btn" class="btn primary full">Send OTP</button>
+      </div>
+      <div id="forgot-step-otp" class="hidden">
+        <p class="muted small">Enter the six-digit OTP sent to your registered mobile number.</p>
+        <div class="field"><label for="forgot-otp">SMS OTP</label><input id="forgot-otp" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6-digit OTP"></div>
+        <button type="button" id="verify-otp-btn" class="btn primary full">Verify OTP</button>
+      </div>
+      <div id="forgot-step-password" class="hidden">
+        <p class="muted small">OTP verified. Create a new password for your employee account.</p>
+        <div class="field"><label for="new-password">New password (minimum 8 characters)</label><input id="new-password" type="password" minlength="8" autocomplete="new-password"></div>
+        <div class="field"><label for="confirm-new-password">Confirm new password</label><input id="confirm-new-password" type="password" minlength="8" autocomplete="new-password"></div>
+        <button type="button" id="save-new-password-btn" class="btn primary full">Update password</button>
+      </div>
+      <p id="forgot-message" class="error" role="status"></p>
+    </form>
+  </dialog>
+
+  <dialog id="employee-dialog">
+    <form id="employee-form" method="dialog">
+      <div class="dialog-head"><div><p class="eyebrow">EMPLOYEE DETAILS</p><h2 id="employee-dialog-title">Add employee</h2></div><button type="button" class="icon-btn" id="close-dialog" aria-label="Close">×</button></div>
+      <input id="edit-original-id" type="hidden">
+      <div class="form-grid">
+        <div class="field"><label for="emp-id">Employee ID</label><input id="emp-id" required maxlength="16" placeholder="MH001"></div>
+        <div class="field"><label for="emp-name">Full name</label><input id="emp-name" required maxlength="60" placeholder="Employee name"></div>
+        <div class="field"><label for="emp-designation">Designation</label><input id="emp-designation" maxlength="60" placeholder="Marketing Executive"></div>
+        <div class="field"><label for="emp-phone">Phone</label><input id="emp-phone" maxlength="15" placeholder="Phone number"></div>
+        <div class="field full-field"><label for="emp-email">Email (optional)</label><input id="emp-email" type="email" maxlength="100" placeholder="employee@example.com"></div>
+      </div>
+      <p class="small muted">Demo employee password: Welcome@123. This local version stores records in this browser only.</p>
+      <div class="dialog-actions"><button type="button" id="cancel-employee" class="btn outline">Cancel</button><button type="submit" class="btn primary">Save employee</button></div>
+      <p id="employee-error" class="error"></p>
+    </form>
+  </dialog>
+
+  <section id="print-area" class="hidden"></section>
+  <footer>© <span id="year"></span> Harini Hospitals · Marketing Payslip Portal · Local demonstration</footer>
+  <script src="app.js"></script>
+</body>
+</html>
